@@ -2,9 +2,24 @@
 About
 """
 import toga
+import aiosc
 from toga.style import Pack
 from toga.style.pack import COLUMN, ROW
 
+class EchoServer(aiosc.OSCProtocol):
+    def __init__(self):
+        super().__init__(handlers={
+            '/sys/exit': lambda addr, path, *args: sys.exit(0),
+            '//*': self.echo,
+        })
+
+    def echo(self, addr, path, *args):
+        print("incoming message from {}: {} {}".format(addr, path, args))
+
+# loop = asyncio.get_event_loop()
+# coro = loop.create_datagram_endpoint(EchoServer, local_addr=('127.0.0.1', 9000))
+# transport, protocol = loop.run_until_complete(coro)
+# loop.run_forever()
 
 class DAWLivestreamHelper(toga.App):
 
@@ -34,8 +49,31 @@ class DAWLivestreamHelper(toga.App):
 
         self.main_window = toga.MainWindow(title=self.formal_name)
         self.main_window.content = main_box
-        self.main_window.show()
 
+        import aiosc
+
+        def protocol_factory():
+            osc = aiosc.OSCProtocol({
+                '//*': lambda addr, path, *args: print(addr, path, args)
+            })
+            return osc
+
+        ### Run Background tasks
+        self.loop = self._impl.loop  # access asyncio.get_event_loop()
+
+        # self.add_background_task( Coroutine )  # equals under the hood:
+        # self.loop.call_soon(wrapped_handler(self, handler), self)
+
+        coro = self.loop.create_datagram_endpoint(EchoServer, local_addr=('127.0.0.1', 9000))
+        self.loop.create_task(coro, name="osc_coro")
+
+        ### Startup GUI
+        self.main_window.show()
+        
 
 def main():
     return DAWLivestreamHelper()
+
+if __name__ == '__main__':
+    app = DAWLivestreamHelper('First App', 'org.beeware.helloworld')
+    app.main_loop()
