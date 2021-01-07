@@ -7,6 +7,13 @@ host.setShouldFailOnDeprecatedUse(true);
 host.defineController("com.saltiolabs", "daw-livestream-helper", "0.1", "5a8ba85f-856a-4f36-8546-7d6ef28103aa", "jasalt");
 
 function init() {
+   application = host.createApplication();
+   projectName = application.projectName();
+
+   projectName.addValueObserver(	
+      function(projectName) {
+         println(projectName);
+      });
 
    // TODO: Perform further initialization here.
    println("daw-livestream-helper initialized!");
