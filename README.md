@@ -2,9 +2,12 @@
 
 Listen DAW project file changes and automatically add them as chapter marks to livestream video chat and description to make videos more easy to view and process later by project name.
 
+Using generic OSC connection for receiving project file data from DAW with example implementation for Bitwig which might be simple to implement for Ableton etc.
+
 ![Concept Image](https://github.com/jasalt/daw-livestream-helper/blob/master/210107-daw-livestream-helper.jpg)
 
-![Draft UI](https://github.com/jasalt/daw-livestream-helper/blob/master/210107-daw-livestream-helper-ui.jpg)
+## Draft UI
+![Draft UI](https://github.com/jasalt/daw-livestream-helper/blob/master/210107-daw-livestream-helper-ui.png)
 
 ## TODO
 
