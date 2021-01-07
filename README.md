@@ -24,3 +24,9 @@ Here I manually sent the opened project file name as a chat message, and later c
 https://www.youtube.com/watch?v=Melm6xq8gJI
 
 Previously used to skim through livestream recordings adding project file names and "highlight parts" manually which was even more tedious.
+
+## Supported systems
+
+Built with Python 3.8.6 and [Toga](https://toga.readthedocs.io/en/latest/) GUI library.
+
+Written and tested on MacOS 11.1 (Intel) and should work on Apple Silicon and with minor tweaks on Window 10/7 and Linux.
