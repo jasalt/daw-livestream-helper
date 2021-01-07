@@ -6,23 +6,18 @@ import aiosc
 from toga.style import Pack
 from toga.style.pack import COLUMN, ROW
 
-class EchoServer(aiosc.OSCProtocol):
+class OscServer(aiosc.OSCProtocol):
     def __init__(self):
         super().__init__(handlers={
-            '/sys/exit': lambda addr, path, *args: sys.exit(0),
-            '//*': self.echo,
+            # '/sys/exit': lambda addr, path, *args: sys.exit(0),
+            '//*': self.handle_message,
         })
 
-    def echo(self, addr, path, *args):
+    def handle_message(self, addr, path, *args):
         print("incoming message from {}: {} {}".format(addr, path, args))
 
-# loop = asyncio.get_event_loop()
-# coro = loop.create_datagram_endpoint(EchoServer, local_addr=('127.0.0.1', 9000))
-# transport, protocol = loop.run_until_complete(coro)
-# loop.run_forever()
 
 class DAWLivestreamHelper(toga.App):
-
     def mock_button_fuction(self, widget, **kwargs):
         self.current_daw_title.text = "Mock button pressed..."
 
@@ -50,21 +45,13 @@ class DAWLivestreamHelper(toga.App):
         self.main_window = toga.MainWindow(title=self.formal_name)
         self.main_window.content = main_box
 
-        import aiosc
-
-        def protocol_factory():
-            osc = aiosc.OSCProtocol({
-                '//*': lambda addr, path, *args: print(addr, path, args)
-            })
-            return osc
-
         ### Run Background tasks
         self.loop = self._impl.loop  # access asyncio.get_event_loop()
 
         # self.add_background_task( Coroutine )  # equals under the hood:
         # self.loop.call_soon(wrapped_handler(self, handler), self)
 
-        coro = self.loop.create_datagram_endpoint(EchoServer, local_addr=('127.0.0.1', 9000))
+        coro = self.loop.create_datagram_endpoint(OscServer, local_addr=('127.0.0.1', 9000))
         self.loop.create_task(coro, name="osc_coro")
 
         ### Startup GUI
