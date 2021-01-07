@@ -6,13 +6,20 @@ host.setShouldFailOnDeprecatedUse(true);
 
 host.defineController("com.saltiolabs", "daw-livestream-helper", "0.1", "5a8ba85f-856a-4f36-8546-7d6ef28103aa", "jasalt");
 
+var connection = null;
+
 function init() {
-   application = host.createApplication();
-   projectName = application.projectName();
+   var oscModule = host.getOscModule ();
+
+   connection = oscModule.connectToUdpServer ("127.0.0.1", 9000, oscModule.createAddressSpace ());
+
+   var application = host.createApplication();
+   var projectName = application.projectName();
 
    projectName.addValueObserver(	
       function(projectName) {
-         println(projectName);
+         println(`send osc message ${projectName}`);
+         connection.sendMessage("/project/name", projectName);
       });
 
    // TODO: Perform further initialization here.
