@@ -1,0 +1,49 @@
+[tool.briefcase]
+project_name = "DAW Livestream Helper"
+bundle = "com.saltiolabs"
+version = "0.0.1"
+url = "https://github.com/jasalt/daw-livestream-helper"
+license = "GNU General Public License v3 (GPLv3)"
+author = 'Listen and broadcast DAW project file changes for livestream chat and Youtube chapter infoJarkko Saltiola'
+author_email = "jarkko@saltiolacode.fi"
+
+[tool.briefcase.app.daw_livestream_helper]
+formal_name = "DAW Livestream Helper"
+description = "About"
+icon = "src/daw_livestream_helper/resources/daw_livestream_helper"
+sources = ['src/daw_livestream_helper']
+requires = []
+
+
+[tool.briefcase.app.daw_livestream_helper.macOS]
+requires = [
+    'toga-cocoa>=0.3.0.dev20',
+]
+
+[tool.briefcase.app.daw_livestream_helper.linux]
+requires = [
+    'toga-gtk>=0.3.0.dev20',
+]
+system_requires = [
+    'libgirepository1.0-dev',
+    'libcairo2-dev',
+    'libpango1.0-dev',
+    'libwebkitgtk-3.0-0',
+    'gir1.2-webkit-3.0',
+]
+
+[tool.briefcase.app.daw_livestream_helper.windows]
+requires = [
+    'toga-winforms>=0.3.0.dev20',
+]
+
+# Mobile deployments
+[tool.briefcase.app.daw_livestream_helper.iOS]
+requires = [
+    'toga-iOS>=0.3.0.dev20',
+]
+
+[tool.briefcase.app.daw_livestream_helper.android]
+requires = [
+    'toga-android>=0.3.0.dev20',
+]

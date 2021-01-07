@@ -25,6 +25,15 @@ https://www.youtube.com/watch?v=Melm6xq8gJI
 
 Previously used to skim through livestream recordings adding project file names and "highlight parts" manually which was even more tedious.
 
+## API notes
+- OAuth2 https://developers.restream.io/docs#overview
+- Update Description https://developers.restream.io/docs#channel-meta
+
+Restream does not seem to have interface for sending chat messages, but has a relay function so messages sent to Twitch chat would work.
+
+- Async Twitch API wrapper https://github.com/TwitchIO/TwitchIO
+
+
 ## Supported systems
 
 Built with Python 3.8.6 and [Toga](https://toga.readthedocs.io/en/latest/) GUI library.
