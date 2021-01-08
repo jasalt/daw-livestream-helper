@@ -2,7 +2,7 @@
 
 Listen DAW project file changes and automatically add them as chapter marks to livestream video chat and description to make videos more easy to view and process later by project name.
 
-Using generic OSC connection for receiving project file data from DAW with example implementation for Bitwig which might be simple to implement for Ableton etc.
+Using generic OSC connection for receiving project file data from DAW with example implementation for Bitwig Studio ("BWS") which might be simple to implement for Ableton etc.
 
 ![Concept Image](https://github.com/jasalt/daw-livestream-helper/blob/master/210107-daw-livestream-helper.jpg)
 
@@ -11,11 +11,15 @@ Using generic OSC connection for receiving project file data from DAW with examp
 
 ## TODO
 
-- [X] Listen DAW project file changes
-- [ ] Broadcast via OSC to Python
-- [ ] Forward to Restream.io or Twitch chat
-- [ ] Set chapter marks for Youtube video description
-- [ ] Set project file into livestream video title (useful?)
+- [X] BWS: Listen for DAW project name changes 
+- [X] BWS: Broadcast them via OSC to Python
+- [ ] Send project name changes to Twitch chat
+- [ ] Set project name changes to livestream video title
+
+###  Later
+
+- [ ] BWS: Wait for audio engine to be online before notifying about project changes
+- [ ] Set chapter marks for Youtube video description (needs to be defined better)
 
 ## Example Youtube Video description chapter mark formatting 
 

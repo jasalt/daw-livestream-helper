@@ -63,5 +63,5 @@ def main():
     return DAWLivestreamHelper()
 
 if __name__ == '__main__':
-    app = DAWLivestreamHelper('First App', 'org.beeware.helloworld')
+    app = DAWLivestreamHelper('DAW Livestream Helper', 'com.saltiolabs')
     app.main_loop()
