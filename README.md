@@ -6,6 +6,9 @@ Using generic OSC connection for receiving project file data from DAW with examp
 
 ![Concept Image](https://github.com/jasalt/daw-livestream-helper/blob/master/210107-daw-livestream-helper.jpg)
 
+## Running
+Install dependencies `pip install -r requirements.txt` for Python (tested on 3.8.6), `cd daw_livestream_helper` and run `briefcase dev`. Alternatively run file `app.py` from VSCode for debugging.
+
 ## Draft UI
 ![Draft UI](https://github.com/jasalt/daw-livestream-helper/blob/master/210107-daw-livestream-helper-ui.png)
 
