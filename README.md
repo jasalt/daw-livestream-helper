@@ -9,6 +9,8 @@ Using generic OSC connection for receiving project file data from DAW with examp
 ## Running
 Install dependencies `pip install -r requirements.txt` for Python (tested on 3.8.6), `cd daw_livestream_helper` and run `briefcase dev`. Alternatively run file `app.py` from VSCode for debugging.
 
+For now, set Twitch OAuth token as environment variable TWITCH_OAUTH.
+
 ## Draft UI
 ![Draft UI](https://github.com/jasalt/daw-livestream-helper/blob/master/210107-daw-livestream-helper-ui.png)
 
@@ -22,6 +24,7 @@ Install dependencies `pip install -r requirements.txt` for Python (tested on 3.8
 ###  Later
 
 - [ ] BWS: Wait for audio engine to be online before notifying about project changes
+- [ ] Twitch API key password input
 - [ ] Set chapter marks for Youtube video description (needs to be defined better)
 
 ## Example Youtube Video description chapter mark formatting 
