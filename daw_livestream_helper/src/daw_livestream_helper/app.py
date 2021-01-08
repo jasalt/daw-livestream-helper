@@ -6,6 +6,10 @@ import aiosc
 from toga.style import Pack
 from toga.style.pack import COLUMN, ROW
 
+from twitchio.ext import commands
+from os import environ
+
+
 class OscServer(aiosc.OSCProtocol):
     def __init__(self):
         super().__init__(handlers={
@@ -18,6 +22,47 @@ class OscServer(aiosc.OSCProtocol):
         print("incoming message from {}: {} {}".format(addr, path, args))
 
 
+class Bot(commands.Bot):
+    def __init__(self):
+        super().__init__(irc_token=environ['TWITCH_OAUTH'], nick='554music', prefix='!', #client_id='...'
+                         initial_channels=['554music'])
+
+    async def start(self,discarded_arg):
+        """|coro|
+        
+        HACK Overrides method and adds extra fn argument that gets passed during Toga's add_background_task
+
+        An asynchronous call which starts the IRC Bot event loop.
+
+        This should only be used when integrating Twitch Bots with Discord Bots.
+        :meth:`.run` should be used instead.
+
+        .. warning::
+            Do not use this function if you are using :meth:`.run`
+        """
+        await self._ws._connect()
+
+        try:
+            await self._ws._listen()
+        except KeyboardInterrupt:
+            pass
+        finally:
+            self._ws.teardown()
+
+    # Events don't need decorators when subclassed
+    async def event_ready(self):
+        print(f'Ready | {self.nick}')
+
+    async def event_message(self, message):
+        print(message.content)
+        await self.handle_commands(message)
+
+    # Commands use a different decorator
+    @commands.command(name='test')
+    async def my_command(self, ctx):
+        await ctx.send(f'Hello {ctx.author.name}!')
+
+
 class DAWLivestreamHelper(toga.App):
     def mock_button_fuction(self, widget, **kwargs):
         self.current_daw_title.text = "Mock button pressed..."
@@ -26,6 +71,9 @@ class DAWLivestreamHelper(toga.App):
         message = f"osc_switch is_on = {self.osc_switch.is_on}"
         print(message)
         self.current_daw_title.text = message
+
+    async def start_bot(self):
+        await self.bot.start
 
     def startup(self):
         """
@@ -46,14 +94,19 @@ class DAWLivestreamHelper(toga.App):
         self.main_window = toga.MainWindow(title=self.formal_name)
         self.main_window.content = main_box
 
-        ### Run Background tasks
-        self.loop = self._impl.loop  # access asyncio.get_event_loop()
+        ### HACK Running background tasks
 
-        # self.add_background_task( Coroutine )  # equals under the hood:
-        # self.loop.call_soon(wrapped_handler(self, handler), self)
+        # aiosc is uses lover level functions for running the example code
+        # self.add_background_task( Coroutine ) -> equals under the hood:  
+        #                                          self.loop.call_soon(wrapped_handler(self, handler), self)
 
-        coro = self.loop.create_datagram_endpoint(OscServer, local_addr=('127.0.0.1', 9000))
-        task = self.loop.create_task(coro, name="osc_coro")
+        loop = self._impl.loop  # equals asyncio.get_event_loop()
+
+        osc_coro = loop.create_datagram_endpoint(OscServer, local_addr=('127.0.0.1', 9000))
+        osc_task = loop.create_task(osc_coro, name="osc_coro")
+
+        self.bot = Bot()
+        self.add_background_task(self.bot.start)  # works but sends one extra parameter which causes error
 
         ### Startup GUI
         self.main_window.show()
