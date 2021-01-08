@@ -14,6 +14,7 @@ class OscServer(aiosc.OSCProtocol):
         })
 
     def handle_message(self, addr, path, *args):
+        app.current_daw_title.text = args
         print("incoming message from {}: {} {}".format(addr, path, args))
 
 
@@ -52,7 +53,7 @@ class DAWLivestreamHelper(toga.App):
         # self.loop.call_soon(wrapped_handler(self, handler), self)
 
         coro = self.loop.create_datagram_endpoint(OscServer, local_addr=('127.0.0.1', 9000))
-        self.loop.create_task(coro, name="osc_coro")
+        task = self.loop.create_task(coro, name="osc_coro")
 
         ### Startup GUI
         self.main_window.show()
