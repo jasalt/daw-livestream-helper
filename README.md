@@ -61,6 +61,8 @@ While making music I find myself often jumping from project file to another and 
 
 Now this Twitch chat log can be copy pasted with minor modifications to the Youtube description to function as chapter marks. Will probably automate this part also after finding a simple method for it.
 
+Example archived video on Youtube with chapter marks https://www.youtube.com/watch?v=Melm6xq8gJI.
+
 # API notes
 
 ## Twitch IRC Chat
