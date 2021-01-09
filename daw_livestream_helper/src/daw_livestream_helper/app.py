@@ -84,6 +84,13 @@ class DAWLivestreamHelper(toga.App):
     async def start_bot(self):
         await self.bot.start
 
+    def twitch_connect(self, widget, *kwargs):
+        self.bot = Bot()
+        self.add_background_task(self.bot.start)  # works but sends one extra parameter which causes error
+        widget.label = "Connected"
+        widget.enabled = False
+
+
     def startup(self):
         """
         Construct and show the Toga application.
@@ -100,12 +107,15 @@ class DAWLivestreamHelper(toga.App):
         # Sets initial values from environment variables TWITCH_USER TWITCH_CHAN TWITCH_OAUTH  
         # TODO Store from user input for next launch
 
+        # BUG on Mac 11.1: the input values get erased if input focus changes to another input field
+        # WORKAROUND: focus other application window after input
+
         self.twitch_user_input = toga.TextInput(initial=environ.get('TWITCH_USER', None), 
-                                                    placeholder='username', on_change=None)
+                                                    placeholder='username')
         self.twitch_channel_input = toga.TextInput(initial=environ.get('TWITCH_CHAN', None), 
-                                                   placeholder='channel', on_change=None)
+                                                   placeholder='channel')
         self.twitch_key_input = toga.PasswordInput(initial=environ.get('TWITCH_OAUTH', None), 
-                                                   placeholder="auth token", on_change=None)
+                                                   placeholder="auth token")
 
         self.twitch_settings_container = toga.Box(style=Pack(direction=COLUMN, padding=10),
                                                   children=[self.twitch_input_label,   
@@ -113,11 +123,12 @@ class DAWLivestreamHelper(toga.App):
                                                             self.twitch_channel_input, 
                                                             self.twitch_key_input])
 
-        self.on_switch = toga.Switch('Enable automatic sending', on_toggle=self.on_switch_handler, style=Pack(flex=1, padding_left=10, padding_top=3))
+        self.twitch_connect_button = toga.Button('Connect', on_press=self.twitch_connect, style=Pack(flex=0.5, padding_right=5))
         self.send_button = toga.Button('Send current project name', on_press=self.send_button_fuction, style=Pack(flex=1))
+        self.on_switch = toga.Switch('Enable automatic sending', on_toggle=self.on_switch_handler, style=Pack(flex=1, padding_left=10, padding_top=3))
 
         self.twitch_controls_container = toga.Box(style=Pack(direction=ROW, padding=10),
-                                                  children=[self.send_button, self.on_switch])
+                                                  children=[self.twitch_connect_button, self.send_button, self.on_switch])
 
         main_box = toga.Box(style=Pack(direction=COLUMN,padding=10,flex=1),
                             children=[self.daw_project_name_container, 
@@ -138,9 +149,11 @@ class DAWLivestreamHelper(toga.App):
         osc_coro = loop.create_datagram_endpoint(OscServer, local_addr=('127.0.0.1', 9000))
         osc_task = loop.create_task(osc_coro, name="osc_coro")
 
-        self.bot = Bot()
-        self.add_background_task(self.bot.start)  # works but sends one extra parameter which causes error
+        # Connect Twitch automatically if credentials are set 
+        if environ.get('TWITCH_USER', None) and environ.get('TWITCH_CHAN', None) and environ.get('TWITCH_OAUTH', None):
+            self.twitch_connect(self.twitch_connect_button)
 
+        
         ### Startup GUI
         self.main_window.show()
         

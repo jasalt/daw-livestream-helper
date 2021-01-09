@@ -19,7 +19,7 @@ For now, the default Twitch credentials can be loaded from environment variables
     export TWITCH_USER="554music"
     export TWITCH_CHAN="554music"
 
-If these are not supplied they have to be input before initializing Twitch connection.
+If these are not supplied they have to be input before initializing Twitch connection (see BUGS section).
 
 ## Draft UI
 ![Draft UI](https://github.com/jasalt/daw-livestream-helper/blob/master/docs/210107-daw-livestream-helper-ui.png)
@@ -30,10 +30,14 @@ If these are not supplied they have to be input before initializing Twitch conne
 - [X] BWS: Broadcast them via OSC to Python
 - [X] Send project name changes to Twitch chat
 - [X] BWS: Wait for audio engine to be online before notifying about project changes
-- [ ] Input for Twitch API key, username and channel
-- [ ] Toggle sending on/off
+- [X] Input for Twitch API key, username and channel
+- [X] Toggle sending on/off
 - [ ] Icon
 - [ ] Windows support
+
+## BUGS
+
+- [ ] MacOS 11.1 the input values get erased if input focus changes to another input field, workaround is to focus any other application window after input (not tested elsewhere)
 
 ###  Later
 
