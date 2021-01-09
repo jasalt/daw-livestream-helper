@@ -1,10 +1,10 @@
 # DAW Livestream Helper
 
+![Current UI](https://github.com/jasalt/daw-livestream-helper/blob/master/docs/210109-ui.png)
+
 Listen DAW project file changes and automatically add them as chapter marks to livestream video chat and description to make videos more easy to view and process later by project name.
 
-Using generic OSC connection for receiving project file data from DAW with example implementation for Bitwig Studio ("BWS") which might be simple to implement for Ableton etc.
-
-Behind the scenes video of building this https://www.instagram.com/stories/highlights/17883447325989693/ (requires Instagram account, sadly).
+Using generic OSC connection (port 9000) for receiving project file data from DAW with example implementation for Bitwig Studio ("BWS") which might be simple to implement for Ableton etc.
 
 ![Concept Image](https://github.com/jasalt/daw-livestream-helper/blob/master/docs/210107-daw-livestream-helper.png)
 
@@ -20,6 +20,8 @@ For now, the default Twitch credentials can be loaded from environment variables
     export TWITCH_CHAN="554music"
 
 If these are not supplied they have to be input before initializing Twitch connection (see BUGS section).
+
+No errors are given for failed login for other than error console. Restart and try again if mistyped credentials before connecting.
 
 ## Draft UI
 ![Draft UI](https://github.com/jasalt/daw-livestream-helper/blob/master/docs/210107-daw-livestream-helper-ui.png)
@@ -53,12 +55,12 @@ https://www.youtube.com/watch?v=Melm6xq8gJI
 Previously used to skim through livestream recordings adding project file names and "highlight parts" manually which was even more tedious.
 
 ## API notes
+### Twitch IRC Chat
+Restream does not seem to have interface for sending chat messages, but has a relay function so messages sent to Twitch chat would work. Using async Twitch IRC library https://github.com/TwitchIO/TwitchIO
+
+### Restream (for title changes)
 - OAuth2 https://developers.restream.io/docs#overview
 - Update Description https://developers.restream.io/docs#channel-meta
-
-Restream does not seem to have interface for sending chat messages, but has a relay function so messages sent to Twitch chat would work.
-
-- Async Twitch API wrapper https://github.com/TwitchIO/TwitchIO
 
 
 ## Supported systems
@@ -66,3 +68,8 @@ Restream does not seem to have interface for sending chat messages, but has a re
 Built with Python 3.8.6 and [Toga](https://toga.readthedocs.io/en/latest/) GUI library.
 
 Written and tested on MacOS 11.1 (Intel) and Windows 10. Should work on Apple Silicon and on Window 7 and Linux with minor tweaks.
+
+
+## Misc
+
+Behind the scenes video of building this https://www.instagram.com/stories/highlights/17883447325989693/ (requires Instagram account, sadly).
