@@ -19,7 +19,9 @@ class OscServer(aiosc.OSCProtocol):
 
     def handle_message(self, addr, path, *args):
         app.current_daw_title.text = args
+        app.bot.send_message(args)
         print("incoming message from {}: {} {}".format(addr, path, args))
+
 
 
 class Bot(commands.Bot):
@@ -61,6 +63,11 @@ class Bot(commands.Bot):
     @commands.command(name='test')
     async def my_command(self, ctx):
         await ctx.send(f'Hello {ctx.author.name}!')
+
+    def send_message(self, message):
+        chan = app.bot.get_channel('554music')
+        loop = app._impl.loop  # equals asyncio.get_event_loop()
+        loop.create_task(chan.send(message), name="msg_coro")
 
 
 class DAWLivestreamHelper(toga.App):
