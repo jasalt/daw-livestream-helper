@@ -6,6 +6,10 @@ Posts Bitwig Studio project file changes automatically to Twitch livestream chat
 ## Running
 To start sending project name change data from BWS via OSC, copy or symlink daw-livestream-helper.control.js to `Documents > Bitwig Studio > Controller Scripts` folder and add it as a control surface in settings.
 
+Making a hardlink on Windows Powershell:
+
+    New-Item -ItemType HardLink -Path "$HOME\Documents\Bitwig Studio\Controller Scripts\daw-livestream-helper.control.js" -Target ".\daw-livestream-helper.control.js"
+
 Install dependencies `pip install -r requirements.txt` for Python (tested on 3.8.6), `cd daw_livestream_helper` and run `briefcase dev`. Alternatively run file `app.py` from VSCode for debugging.
 
 For now, the default Twitch credentials can be loaded from environment variables:
@@ -22,7 +26,7 @@ No errors are given for failed login for other than error console. Restart and t
 
 Based on Python 3.8.6 and Beeware [Toga](https://toga.readthedocs.io/en/latest/) native GUI application framework. 
 
-Written on MacOS 11.1 (Intel) and tested for Windows 10 (WIP). 
+Written on MacOS 11.1 (Intel) and being ported for Windows 10. 
 Should work on Windows 7, Linux and Apple Silicon too but haven't tested.
 
 # Development
@@ -44,6 +48,17 @@ Should be quite straightforward to make this work with some other DAW software b
 - [X] Mockup Icon
 - [ ] Windows support
 - [ ] Build executables
+
+## Windows Port Status
+
+- [X] Toga GUI works
+- [X] Bitwig controller script works and connects aiosc_test.py
+- [X] twitchio_test.py hellobot connects and sends echo back (bit slow?)
+- [ ] Problems running TwitchIO with Toga event loop
+- [ ] Problems running aiosc with Toga event loop
+- [ ] VSCode debugger does not work
+
+RuntimeError: There is no current event loop in thread 'Dummy-1'. ...
 
 ## BUGS
 
