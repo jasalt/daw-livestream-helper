@@ -24,7 +24,9 @@ For now, set Twitch OAuth token (https://twitchapps.com/tmi/) as environment var
 - [X] BWS: Broadcast them via OSC to Python
 - [X] Send project name changes to Twitch chat
 - [X] BWS: Wait for audio engine to be online before notifying about project changes
-- [ ] Twitch API key password input
+- [ ] Input for Twitch API key, username and channel
+- [ ] Toggle sending on/off
+- [ ] Icon
 - [ ] Windows support
 
 ###  Later
@@ -53,4 +55,4 @@ Restream does not seem to have interface for sending chat messages, but has a re
 
 Built with Python 3.8.6 and [Toga](https://toga.readthedocs.io/en/latest/) GUI library.
 
-Written and tested on MacOS 11.1 (Intel) and should work on Apple Silicon and with minor tweaks on Window 10/7 and Linux.
+Written and tested on MacOS 11.1 (Intel) and Windows 10. Should work on Apple Silicon and on Window 7 and Linux with minor tweaks.
