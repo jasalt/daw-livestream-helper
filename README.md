@@ -23,7 +23,7 @@ For now, set Twitch OAuth token (https://twitchapps.com/tmi/) as environment var
 - [X] BWS: Listen for DAW project name changes 
 - [X] BWS: Broadcast them via OSC to Python
 - [X] Send project name changes to Twitch chat
-- [ ] BWS: Wait for audio engine to be online before notifying about project changes
+- [X] BWS: Wait for audio engine to be online before notifying about project changes
 - [ ] Twitch API key password input
 - [ ] Windows support
 

@@ -17,20 +17,30 @@ function init() {
    var projectName = application.projectName();
    var activeEngine = application.hasActiveEngine();
 
-   var currentProjectName;
+   var activeProjectName;  // Use for checking if switching back to the same project
+   var switchedProjectName;
 
+   // Triggers on project tab switch and sets variable for switched project name
    projectName.addValueObserver(	
       function(projectName) {
-         println(`projectName: ${projectName}`);
-         currentProjectName = projectName;
+         println("switchedProjectName:" + projectName);
+         switchedProjectName = projectName;
       });
 
+   // Triggers on project tab switch
    activeEngine.addValueObserver(	
       function(activeEngine) {
          println('activeEngine: ' + activeEngine);
+         println("activeProjectName:" + activeProjectName);
+
+         // if switched project tab has active engine
          if (activeEngine){
-            println('Engine On, sending project name via OSC');
-            connection.sendMessage("/project/name", currentProjectName);
+            if (switchedProjectName != activeProjectName){  // and it's not the current active project
+               activeProjectName = switchedProjectName; 
+               println(`Engine On, sending project name ${switchedProjectName} via OSC`);
+               connection.sendMessage("/project/name", switchedProjectName);  // send the updated active project name
+            }
+            // println('Switched to previously active project tab, skip sending message.');
          }
       });
 
