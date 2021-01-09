@@ -17,18 +17,21 @@ function init() {
    var projectName = application.projectName();
    var activeEngine = application.hasActiveEngine();
 
+   var currentProjectName;
+
    projectName.addValueObserver(	
       function(projectName) {
          println(`projectName: ${projectName}`);
-         println('typeof(projectName): ' + typeof(projectName));
+         currentProjectName = projectName;
       });
 
    activeEngine.addValueObserver(	
       function(activeEngine) {
          println('activeEngine: ' + activeEngine);
-         println('typeof(activeEngine): ' + typeof(activeEngine));
-         // connection.sendMessage("/project/name", projectName);
-         // connection.sendMessage("/project/engine", activeEngine);
+         if (activeEngine){
+            println('Engine On, sending project name via OSC');
+            connection.sendMessage("/project/name", currentProjectName);
+         }
       });
 
    println("daw-livestream-helper initialized!");
