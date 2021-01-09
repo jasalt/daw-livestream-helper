@@ -1,6 +1,5 @@
 # DAW Livestream Helper
-![Mockup Logo](https://github.com/jasalt/daw-livestream-helper/blob/master/docs/logo-mockup-1.png)
-![Current UI](https://github.com/jasalt/daw-livestream-helper/blob/master/docs/210109-ui.png)
+![Mockup Logo and prototype GUI](https://github.com/jasalt/daw-livestream-helper/blob/master/docs/210109-proto.jpg)
 
 Listen DAW project file changes and automatically add them as chapter marks to livestream video chat and description to make videos more easy to view and process later by project name.
 
