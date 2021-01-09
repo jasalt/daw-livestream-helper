@@ -6,7 +6,7 @@ Using generic OSC connection for receiving project file data from DAW with examp
 
 Behind the scenes video of building this https://www.instagram.com/stories/highlights/17883447325989693/ (requires Instagram account, sadly).
 
-![Concept Image](https://github.com/jasalt/daw-livestream-helper/blob/master/210107-daw-livestream-helper.png)
+![Concept Image](https://github.com/jasalt/daw-livestream-helper/blob/master/docs/210107-daw-livestream-helper.png)
 
 ## Running
 To start sending project name change data from BWS side via OSC, copy or symlink daw-livestream-helper.control.js to `Documents > Bitwig Studio > Controller Scripts` folder and add it as a control surface in settings.
@@ -16,7 +16,7 @@ Install dependencies `pip install -r requirements.txt` for Python (tested on 3.8
 For now, set Twitch OAuth token (https://twitchapps.com/tmi/) as environment variable TWITCH_OAUTH, while channel name is hardcoded in `app.py`.
 
 ## Draft UI
-![Draft UI](https://github.com/jasalt/daw-livestream-helper/blob/master/210107-daw-livestream-helper-ui.png)
+![Draft UI](https://github.com/jasalt/daw-livestream-helper/blob/master/docs/210107-daw-livestream-helper-ui.png)
 
 ## TODO
 
