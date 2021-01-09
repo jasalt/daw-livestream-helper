@@ -15,22 +15,28 @@ function init() {
 
    var application = host.createApplication();
    var projectName = application.projectName();
+   var activeEngine = application.hasActiveEngine();
 
    projectName.addValueObserver(	
       function(projectName) {
-         println(`send osc message ${projectName}`);
-         connection.sendMessage("/project/name", projectName);
+         println(`projectName: ${projectName}`);
+         println('typeof(projectName): ' + typeof(projectName));
       });
 
-   // TODO: Perform further initialization here.
+   activeEngine.addValueObserver(	
+      function(activeEngine) {
+         println('activeEngine: ' + activeEngine);
+         println('typeof(activeEngine): ' + typeof(activeEngine));
+         // connection.sendMessage("/project/name", projectName);
+         // connection.sendMessage("/project/engine", activeEngine);
+      });
+
    println("daw-livestream-helper initialized!");
 }
 
 
 function flush() {
-   // TODO: Flush any output to your controller here.
 }
 
 function exit() {
-
 }
