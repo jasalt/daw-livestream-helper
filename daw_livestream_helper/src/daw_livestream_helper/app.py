@@ -27,8 +27,8 @@ class OscServer(aiosc.OSCProtocol):
 
 class Bot(commands.Bot):
     def __init__(self):
-        super().__init__(irc_token=environ['TWITCH_OAUTH'], nick='554music', prefix='!', #client_id='...'
-                         initial_channels=['554music'])
+        super().__init__(irc_token=app.twitch_key_input.value, nick=app.twitch_user_input.value, prefix='!', #client_id='...'
+                         initial_channels=[app.twitch_channel_input.value])
 
     async def start(self,discarded_arg):
         """|coro|
@@ -66,7 +66,7 @@ class Bot(commands.Bot):
         await ctx.send(f'Hello {ctx.author.name}!')
 
     def send_message(self, message):
-        chan = app.bot.get_channel('554music')
+        chan = app.bot.get_channel(app.twitch_channel_input.value)
         loop = app._impl.loop  # equals asyncio.get_event_loop()
         loop.create_task(chan.send(message))
         print("Sending to Twitch chat")
@@ -96,13 +96,20 @@ class DAWLivestreamHelper(toga.App):
                                                              style=Pack(direction=ROW, padding=10))
 
         self.twitch_input_label = toga.Label(text="Twitch settings")
-        self.twitch_username_input = toga.TextInput(placeholder='username', on_change=None)
-        self.twitch_channel_input = toga.TextInput(placeholder='channel', on_change=None)
-        self.twitch_key_input = toga.PasswordInput(placeholder="auth token", on_change=None)
+
+        # Sets initial values from environment variables TWITCH_USER TWITCH_CHAN TWITCH_OAUTH  
+        # TODO Store from user input for next launch
+
+        self.twitch_user_input = toga.TextInput(initial=environ.get('TWITCH_USER', None), 
+                                                    placeholder='username', on_change=None)
+        self.twitch_channel_input = toga.TextInput(initial=environ.get('TWITCH_CHAN', None), 
+                                                   placeholder='channel', on_change=None)
+        self.twitch_key_input = toga.PasswordInput(initial=environ.get('TWITCH_OAUTH', None), 
+                                                   placeholder="auth token", on_change=None)
 
         self.twitch_settings_container = toga.Box(style=Pack(direction=COLUMN, padding=10),
                                                   children=[self.twitch_input_label,   
-                                                            self.twitch_username_input,
+                                                            self.twitch_user_input,
                                                             self.twitch_channel_input, 
                                                             self.twitch_key_input])
 

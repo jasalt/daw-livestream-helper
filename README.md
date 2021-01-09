@@ -13,7 +13,13 @@ To start sending project name change data from BWS side via OSC, copy or symlink
 
 Install dependencies `pip install -r requirements.txt` for Python (tested on 3.8.6), `cd daw_livestream_helper` and run `briefcase dev`. Alternatively run file `app.py` from VSCode for debugging.
 
-For now, set Twitch OAuth token (https://twitchapps.com/tmi/) as environment variable TWITCH_OAUTH, while channel name is hardcoded in `app.py`.
+For now, the default Twitch credentials can be loaded from environment variables:
+
+    export TWITCH_OAUTH="oauth:secretkeydatahere"
+    export TWITCH_USER="554music"
+    export TWITCH_CHAN="554music"
+
+If these are not supplied they have to be input before initializing Twitch connection.
 
 ## Draft UI
 ![Draft UI](https://github.com/jasalt/daw-livestream-helper/blob/master/docs/210107-daw-livestream-helper-ui.png)
