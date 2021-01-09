@@ -22,7 +22,6 @@ class OscServer(aiosc.OSCProtocol):
         project_name = args[0]
         app.daw_project_name.text = project_name
         if app.on_switch.is_on:
-            print("Sending to Twitch chat")
             app.bot.send_message(f"[{project_name}]")
 
 
@@ -70,11 +69,12 @@ class Bot(commands.Bot):
         chan = app.bot.get_channel('554music')
         loop = app._impl.loop  # equals asyncio.get_event_loop()
         loop.create_task(chan.send(message))
+        print("Sending to Twitch chat")
 
 
 class DAWLivestreamHelper(toga.App):
-    def mock_button_fuction(self, widget, **kwargs):
-        self.daw_project_name.text = "Mock button pressed..."
+    def send_button_fuction(self, widget, **kwargs):
+        self.bot.send_message(self.daw_project_name.text)
 
     def on_switch_handler(self, widget, **kwargs):
         message = f"on_switch is_on = {self.on_switch.is_on}"
@@ -88,27 +88,34 @@ class DAWLivestreamHelper(toga.App):
         """
         Construct and show the Toga application.
         """
-        self.daw_project_name = toga.Label('Waiting for data...', style=Pack(padding=10))
-        self.mock_button = toga.Button('mock_button', on_press=self.mock_button_fuction)
+        self.daw_project_name_title = toga.Label(text="Project name:", style=Pack(color="#808080"))
+        self.daw_project_name = toga.Label('Waiting for data...')
 
-        self.on_switch = toga.Switch('Enable', on_toggle=self.on_switch_handler)
-        self.on_switch.style.padding = 10
-        self.on_switch.style.flex = 1
+        self.daw_project_name_container = toga.Box(children=[self.daw_project_name_title,
+                                                             self.daw_project_name],
+                                                             style=Pack(direction=ROW, padding=10))
 
         self.twitch_input_label = toga.Label(text="Twitch settings")
         self.twitch_username_input = toga.TextInput(placeholder='username', on_change=None)
         self.twitch_channel_input = toga.TextInput(placeholder='channel', on_change=None)
         self.twitch_key_input = toga.PasswordInput(placeholder="auth token", on_change=None)
 
-        self.twitch_settings_container = toga.Box(style=Pack(direction=COLUMN),
+        self.twitch_settings_container = toga.Box(style=Pack(direction=COLUMN, padding=10),
                                                   children=[self.twitch_input_label,   
                                                             self.twitch_username_input,
                                                             self.twitch_channel_input, 
                                                             self.twitch_key_input])
 
+        self.on_switch = toga.Switch('Enable automatic sending', on_toggle=self.on_switch_handler, style=Pack(flex=1, padding_left=10, padding_top=3))
+        self.send_button = toga.Button('Send current project name', on_press=self.send_button_fuction, style=Pack(flex=1))
+
+        self.twitch_controls_container = toga.Box(style=Pack(direction=ROW, padding=10),
+                                                  children=[self.send_button, self.on_switch])
+
         main_box = toga.Box(style=Pack(direction=COLUMN,padding=10,flex=1),
-                            children=[self.daw_project_name,   # self.mock_button, 
-                                      self.twitch_settings_container, self.on_switch])
+                            children=[self.daw_project_name_container, 
+                                      self.twitch_settings_container, 
+                                      self.twitch_controls_container])
 
         self.main_window = toga.MainWindow(title=self.formal_name)
         self.main_window.content = main_box
