@@ -9,9 +9,11 @@ Behind the scenes video of building this https://www.instagram.com/stories/highl
 ![Concept Image](https://github.com/jasalt/daw-livestream-helper/blob/master/210107-daw-livestream-helper.jpg)
 
 ## Running
+To start sending project name change data from BWS side via OSC, copy or symlink daw-livestream-helper.control.js to `Documents > Bitwig Studio > Controller Scripts` folder and add it as a control surface in settings.
+
 Install dependencies `pip install -r requirements.txt` for Python (tested on 3.8.6), `cd daw_livestream_helper` and run `briefcase dev`. Alternatively run file `app.py` from VSCode for debugging.
 
-For now, set Twitch OAuth token (https://twitchapps.com/tmi/) as environment variable TWITCH_OAUTH.
+For now, set Twitch OAuth token (https://twitchapps.com/tmi/) as environment variable TWITCH_OAUTH, while channel name is hardcoded in `app.py`.
 
 ## Draft UI
 ![Draft UI](https://github.com/jasalt/daw-livestream-helper/blob/master/210107-daw-livestream-helper-ui.png)
