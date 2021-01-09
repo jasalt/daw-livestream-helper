@@ -1,14 +1,10 @@
 # DAW Livestream Helper
 ![Mockup Logo and prototype GUI](https://github.com/jasalt/daw-livestream-helper/blob/master/docs/210109-proto.jpg)
 
-Listen DAW project file changes and automatically add them as chapter marks to livestream video chat and description to make videos more easy to view and process later by project name.
-
-Using generic OSC connection (port 9000) for receiving project file data from DAW with example implementation for Bitwig Studio ("BWS") which might be simple to implement for Ableton etc.
-
-![Concept Image](https://github.com/jasalt/daw-livestream-helper/blob/master/docs/210107-daw-livestream-helper.png)
+Posts Bitwig Studio project file changes automatically to Twitch livestream chat.
 
 ## Running
-To start sending project name change data from BWS side via OSC, copy or symlink daw-livestream-helper.control.js to `Documents > Bitwig Studio > Controller Scripts` folder and add it as a control surface in settings.
+To start sending project name change data from BWS via OSC, copy or symlink daw-livestream-helper.control.js to `Documents > Bitwig Studio > Controller Scripts` folder and add it as a control surface in settings.
 
 Install dependencies `pip install -r requirements.txt` for Python (tested on 3.8.6), `cd daw_livestream_helper` and run `briefcase dev`. Alternatively run file `app.py` from VSCode for debugging.
 
@@ -22,8 +18,20 @@ If these are not supplied they have to be input before initializing Twitch conne
 
 No errors are given for failed login for other than error console. Restart and try again if mistyped credentials before connecting.
 
-## Draft UI
-![Draft UI](https://github.com/jasalt/daw-livestream-helper/blob/master/docs/210107-daw-livestream-helper-ui.png)
+### Supported systems
+
+Based on Python 3.8.6 and Beeware [Toga](https://toga.readthedocs.io/en/latest/) native GUI application framework. 
+
+Written on MacOS 11.1 (Intel) and tested for Windows 10 (WIP). 
+Should work on Windows 7, Linux and Apple Silicon too but haven't tested.
+
+# Development
+
+![Concept Image](https://github.com/jasalt/daw-livestream-helper/blob/master/docs/210107-daw-livestream-helper.png)
+
+Listens OSC connection (port 9000) for receiving project file data from Bitwig Controller API (aiosc library) and sends it to Twitch via IRC (TwitchIO library).
+
+Should be quite straightforward to make this work with some other DAW software but I'm not planning to do something like that myself for free (fork it or ask for quote ;-).
 
 ## TODO
 
@@ -33,42 +41,37 @@ No errors are given for failed login for other than error console. Restart and t
 - [X] BWS: Wait for audio engine to be online before notifying about project changes
 - [X] Input for Twitch API key, username and channel
 - [X] Toggle sending on/off
-- [ ] Icon
+- [X] Mockup Icon
 - [ ] Windows support
+- [ ] Build executables
 
 ## BUGS
 
 - [ ] MacOS 11.1 the input values get erased if input focus changes to another input field, workaround is to focus any other application window after input (not tested elsewhere)
 
-###  Later
+## Later
 
 - [ ] Set project name changes to livestream video title
-- [ ] Set chapter marks for Youtube video description (needs to be defined better)
+- [ ] Help setting chapter marks for Youtube video description
+- [ ] Proper Icon
 
-## Example Youtube Video description chapter mark formatting 
+# Motivation 
 
-Here I manually sent the opened project file name as a chat message, and later copy pasted the Twitch chat log into the Youtube description with some manual formatting.
+While making music I find myself often jumping from project file to another and after starting to livestream  felt necessary to add manually add some chapter marks to the past live videos. Doing this manually in various degrees got tedious till I figured to simply copy paste the project name to the chat every time I change the project. That's what this tool basically does automatically.
 
-https://www.youtube.com/watch?v=Melm6xq8gJI
+Now this Twitch chat log can be copy pasted with minor modifications to the Youtube description to function as chapter marks. Will probably automate this part also after finding a simple method for it.
 
-Previously used to skim through livestream recordings adding project file names and "highlight parts" manually which was even more tedious.
+# API notes
 
-## API notes
-### Twitch IRC Chat
+## Twitch IRC Chat
 Restream does not seem to have interface for sending chat messages, but has a relay function so messages sent to Twitch chat would work. Using async Twitch IRC library https://github.com/TwitchIO/TwitchIO
 
-### Restream (for title changes)
+## Restream (for title changes)
 - OAuth2 https://developers.restream.io/docs#overview
 - Update Description https://developers.restream.io/docs#channel-meta
 
 
-## Supported systems
+# Copyright Notice
+The draft app icons are strictly for personal use as they might contain design elements that could be considered as intellectual property of some 3rd parties. 
 
-Built with Python 3.8.6 and [Toga](https://toga.readthedocs.io/en/latest/) GUI library.
-
-Written and tested on MacOS 11.1 (Intel) and Windows 10. Should work on Apple Silicon and on Window 7 and Linux with minor tweaks.
-
-
-## Misc
-
-Behind the scenes video of building this https://www.instagram.com/stories/highlights/17883447325989693/ (requires Instagram account, sadly).
+Code Licensed under GPLv3.
