@@ -4,12 +4,14 @@ Listen DAW project file changes and automatically add them as chapter marks to l
 
 Using generic OSC connection for receiving project file data from DAW with example implementation for Bitwig Studio ("BWS") which might be simple to implement for Ableton etc.
 
+Behind the scenes video clips of building this https://www.instagram.com/stories/highlights/17883447325989693/.
+
 ![Concept Image](https://github.com/jasalt/daw-livestream-helper/blob/master/210107-daw-livestream-helper.jpg)
 
 ## Running
 Install dependencies `pip install -r requirements.txt` for Python (tested on 3.8.6), `cd daw_livestream_helper` and run `briefcase dev`. Alternatively run file `app.py` from VSCode for debugging.
 
-For now, set Twitch OAuth token as environment variable TWITCH_OAUTH.
+For now, set Twitch OAuth token (https://twitchapps.com/tmi/) as environment variable TWITCH_OAUTH.
 
 ## Draft UI
 ![Draft UI](https://github.com/jasalt/daw-livestream-helper/blob/master/210107-daw-livestream-helper-ui.png)
@@ -18,7 +20,7 @@ For now, set Twitch OAuth token as environment variable TWITCH_OAUTH.
 
 - [X] BWS: Listen for DAW project name changes 
 - [X] BWS: Broadcast them via OSC to Python
-- [ ] Send project name changes to Twitch chat
+- [X] Send project name changes to Twitch chat
 - [ ] Set project name changes to livestream video title
 
 ###  Later

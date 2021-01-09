@@ -18,10 +18,11 @@ class OscServer(aiosc.OSCProtocol):
         })
 
     def handle_message(self, addr, path, *args):
-        app.current_daw_title.text = args
-        app.bot.send_message(args)
         print("incoming message from {}: {} {}".format(addr, path, args))
 
+        project_name = args[0]
+        app.daw_project_name.text = project_name
+        app.bot.send_message(f"[{project_name}]")
 
 
 class Bot(commands.Bot):
@@ -67,17 +68,17 @@ class Bot(commands.Bot):
     def send_message(self, message):
         chan = app.bot.get_channel('554music')
         loop = app._impl.loop  # equals asyncio.get_event_loop()
-        loop.create_task(chan.send(message), name="msg_coro")
+        loop.create_task(chan.send(message))
 
 
 class DAWLivestreamHelper(toga.App):
     def mock_button_fuction(self, widget, **kwargs):
-        self.current_daw_title.text = "Mock button pressed..."
+        self.daw_project_name.text = "Mock button pressed..."
 
     def osc_switch_handler(self, widget, **kwargs):
         message = f"osc_switch is_on = {self.osc_switch.is_on}"
         print(message)
-        self.current_daw_title.text = message
+        self.daw_project_name.text = message
 
     async def start_bot(self):
         await self.bot.start
@@ -86,7 +87,7 @@ class DAWLivestreamHelper(toga.App):
         """
         Construct and show the Toga application.
         """
-        self.current_daw_title = toga.Label('Waiting for data...', style=Pack(padding=10))
+        self.daw_project_name = toga.Label('Waiting for data...', style=Pack(padding=10))
         self.mock_button = toga.Button('mock_button', on_press=self.mock_button_fuction)
 
         self.osc_switch = toga.Switch('Enable OSC Listener', on_toggle=self.osc_switch_handler)
@@ -94,7 +95,7 @@ class DAWLivestreamHelper(toga.App):
         self.osc_switch.style.flex = 1
 
         main_box = toga.Box(style=Pack(direction=COLUMN,padding=10,flex=1),
-                            children=[self.current_daw_title, self.mock_button, 
+                            children=[self.daw_project_name, self.mock_button, 
                                       self.osc_switch])
 
 
