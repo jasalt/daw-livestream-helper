@@ -4,7 +4,13 @@ import toga
 from toga.style.pack import CENTER, COLUMN, ROW, Pack
 import asyncio
 
-# Both are failing on Windows 10, Python 3.8.6, toga 0.2.5 and 0.3.0dev25
+
+# Both are failing on Windows 10, Python 3.9.7, 3.8.6, 
+# Toga not installing on 3.9.1 cause pythonnet not supported yet.
+
+# Mac 3.7.9, 3.8.6, 3.9.1 works
+
+# Tested with toga 0.2.5 and 0.3.0dev25
 
 async def test_coro(args):
     print("start task")
