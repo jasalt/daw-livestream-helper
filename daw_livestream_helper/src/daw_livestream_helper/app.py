@@ -156,7 +156,7 @@ class DAWLivestreamHelper(toga.App):
 
         loop = self._impl.loop  # equals asyncio.get_event_loop()
 
-        osc_coro = loop.create_datagram_endpoint(OscServer, local_addr=('127.0.0.1', 9000))
+        osc_coro = loop.create_datagram_endpoint(OscServer, local_addr=('0.0.0.0', 9000))
         osc_task = loop.create_task(osc_coro, name="osc_coro")
 
         # Connect Twitch automatically if credentials are set 
