@@ -26,8 +26,7 @@ No errors are given for failed login for other than error console. Restart and t
 
 Based on Python 3.8.6 and Beeware [Toga](https://toga.readthedocs.io/en/latest/) native GUI application framework. 
 
-Written on MacOS 11.1 (Intel) and being ported for Windows 10. 
-Should work on Windows 7, Linux and Apple Silicon too but haven't tested.
+Written and tested on MacOS 11.1 (Intel) and should run on Linux. Aiming to support Windows 10 (and 7) eventually (see later section).
 
 # Development
 
@@ -46,26 +45,25 @@ Should be quite straightforward to make this work with some other DAW software b
 - [X] Input for Twitch API key, username and channel
 - [X] Toggle sending on/off
 - [X] Mockup Icon
-- [ ] Windows support
-- [ ] Build executables
+- [ ] Build executable
+- [ ] Read project BPM
+- [ ] Read project genre
 
-## Windows Port Status
+## Windows support status
+
+Due to Toga GUI library's asyncio compatibility issues with Windows it requires a fix or rewriting some app functionality in threaded fashion. Waiting for support response from [Toga Gitter chat](https://gitter.im/beeware/general) before doing anything. As I'm using Windows as main DAW machine I **workarounded this for now by running app on Macbook in local network** (requires osc server address modification in `daw-livestream-helper.control.js` running on DAW PC to be the one shown in the app).
 
 - [X] Toga GUI works
 - [X] Bitwig controller script works and connects aiosc_test.py
 - [X] twitchio_test.py hellobot connects and sends echo back (bit slow?)
 - [ ] Problems running TwitchIO with Toga event loop
 - [ ] Problems running aiosc with Toga event loop
-- [ ] VSCode debugger does not work
 
 RuntimeError: There is no current event loop in thread 'Dummy-1'. ...
 
-## BUGS
-
-- [ ] MacOS 11.1 the input values get erased if input focus changes to another input field, workaround is to focus any other application window after input (not tested elsewhere)
-
 ## Later
 
+- [ ] Windows support
 - [ ] Set project name changes to livestream video title
 - [ ] Help setting chapter marks for Youtube video description
 - [ ] Proper Icon
@@ -78,7 +76,7 @@ Now this Twitch chat log can be copy pasted with minor modifications to the Yout
 
 Example archived video on Youtube with chapter marks https://www.youtube.com/watch?v=Melm6xq8gJI.
 
-# API notes
+# API notes etc.
 
 ## Twitch IRC Chat
 Restream does not seem to have interface for sending chat messages, but has a relay function so messages sent to Twitch chat would work. Using async Twitch IRC library https://github.com/TwitchIO/TwitchIO
@@ -87,6 +85,8 @@ Restream does not seem to have interface for sending chat messages, but has a re
 - OAuth2 https://developers.restream.io/docs#overview
 - Update Description https://developers.restream.io/docs#channel-meta
 
+## Python version notes
+Written on Python 3.8 which is last one that supports Windows 7. Python 3.9 does not yet support Toga dependency [pythonnet](https://github.com/pythonnet/pythonnet).
 
 # Copyright Notice
 The draft app icons are strictly for personal use as they might contain design elements that could be considered as intellectual property of some 3rd parties. 
