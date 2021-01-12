@@ -9,6 +9,7 @@ from toga.style.pack import COLUMN, ROW
 from twitchio.ext import commands
 from os import environ
 
+import socket
 
 class OscServer(aiosc.OSCProtocol):
     def __init__(self):
@@ -102,6 +103,15 @@ class DAWLivestreamHelper(toga.App):
                                                              self.daw_project_name],
                                                              style=Pack(direction=ROW, padding=10))
 
+        hostname = socket.gethostname()
+        local_ip = socket.gethostbyname(hostname)
+        self.hostname_title = toga.Label(text="Listening on:", style=Pack(color="#808080"))
+        self.hostname = toga.Label(local_ip + ":9000")
+
+        self.hostname_container = toga.Box(children=[self.hostname_title,
+                                                             self.hostname],
+                                                             style=Pack(direction=ROW, padding=10))
+
         self.twitch_input_label = toga.Label(text="Twitch settings")
 
         # Sets initial values from environment variables TWITCH_USER TWITCH_CHAN TWITCH_OAUTH  
@@ -131,7 +141,7 @@ class DAWLivestreamHelper(toga.App):
                                                   children=[self.twitch_connect_button, self.send_button, self.on_switch])
 
         main_box = toga.Box(style=Pack(direction=COLUMN,padding=10,flex=1),
-                            children=[self.daw_project_name_container, 
+                            children=[self.hostname_container, self.daw_project_name_container,
                                       self.twitch_settings_container, 
                                       self.twitch_controls_container])
 
