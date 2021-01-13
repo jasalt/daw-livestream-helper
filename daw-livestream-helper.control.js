@@ -52,9 +52,12 @@ function init() {
          switchedProjectName = projectName;
       });
 
+   const map = (value, x1, y1, x2, y2) => (value - x1) * (y2 - x2) / (y1 - x1) + x2;
    tempo.value().addValueObserver(	
       function(newTempo) {
-         println("newTempo" + newTempo);
+         var bpm_mapped = map(newTempo, 0, 1, 20, 666);  // Convert decimal value between 0 - 1
+         var bpm = bpm_mapped.toFixed(2);  // Two decimal precision
+         println(`New BPM ${bpm} (${newTempo})` );
       });
 
    // Triggers on project tab switch
