@@ -20,11 +20,19 @@ function init() {
    var activeProjectName;  // Use for checking if switching back to the same project
    var switchedProjectName;
 
+   var transport = host.createTransport();
+   var tempo = transport.tempo();
+
    // Triggers on project tab switch and sets variable for switched project name
    projectName.addValueObserver(	
       function(projectName) {
          println("switchedProjectName:" + projectName);
          switchedProjectName = projectName;
+      });
+
+   tempo.addValueObserver(	
+      function(newTempo) {
+         println("newTempo" + newTempo);
       });
 
    // Triggers on project tab switch
