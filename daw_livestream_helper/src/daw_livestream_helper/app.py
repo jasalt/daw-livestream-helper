@@ -26,7 +26,7 @@ class OscServer(aiosc.OSCProtocol):
         project_name = args[0].replace('|','@')
         app.daw_project_name.text = project_name  # BUG gets cut off, some problem with encoding?
         if app.on_switch.is_on:
-            app.bot.send_message(f"[{project_name}]")
+            app.bot.send_message(project_name)
 
 
 class Bot(commands.Bot):
@@ -74,7 +74,7 @@ class Bot(commands.Bot):
         global app
         chan = app.bot.get_channel(app.twitch_channel_input.value)  # should be self.bot?
         loop = app._impl.loop  # equals asyncio.get_event_loop()
-        loop.create_task(chan.send(message))
+        loop.create_task(chan.send(f"[{message}]"))
         print("Sending to Twitch chat")
 
 
