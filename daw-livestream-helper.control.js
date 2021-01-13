@@ -8,6 +8,12 @@ host.defineController("com.saltiolabs", "daw-livestream-helper", "0.1", "5a8ba85
 
 var connection = null;
 
+const map = (value, x1, y1, x2, y2) => (value - x1) * (y2 - x2) / (y1 - x1) + x2;
+function bws_tempo_to_bpm(tempo){
+   var bpm_mapped = map(tempo, 0, 1, 20, 666);  // Convert decimal value between 0 - 1
+   var bpm = bpm_mapped.toFixed(2);  // Two decimal precision
+   return bpm;
+}
 
 function init() {
    // Setup host server settings accessible from Preferences
@@ -44,7 +50,7 @@ function init() {
 
    var transport = host.createTransport();
    var tempo = transport.tempo();
-   var BPM;
+   var BPM;  // = tempo.value(); => returns RangedValueProxy on init, not value
    
    // Triggers on project tab switch and sets variable for switched project name
    projectName.addValueObserver(	
@@ -65,26 +71,24 @@ function init() {
    // Triggers on project tab switch
    activeEngine.addValueObserver(	
       function(activeEngine) {
-         // println('activeEngine: ' + activeEngine);
-         // println("activeProjectName:" + activeProjectName);
+         println('activeEngine: ' + activeEngine);
+         println("activeProjectName:" + activeProjectName);
 
-         // if switched project tab has active engine
-         if (activeEngine){
-            if (switchedProjectName != activeProjectName){  // and it's not the current active project
-               activeProjectName = switchedProjectName; 
-               println(`Engine On, sending project name ${switchedProjectName}, ${BPM} BPM via OSC`);
-               connection.sendMessage("/project/info", `${switchedProjectName} | ${BPM} BPM`);  // send the updated active project name
+         if (activeEngine){  // if switched project tab has active engine
+            if (BPM){  // tempo not uninitialized (during init or restart)
+               if (switchedProjectName != activeProjectName){  // and it's not the same/current project
+                  activeProjectName = switchedProjectName;
+                  var data = `${switchedProjectName} | ${BPM}`
+                  println(`Engine on, sending via OSC: ${data} BPM`);
+                  connection.sendMessage("/project/info", `${data} BPM`);
+               }
             }
-            // println('Switched to previously active project tab, skip sending message.');
          }
       });
 
    println("daw-livestream-helper initialized!");
 }
 
+function flush() {}
 
-function flush() {
-}
-
-function exit() {
-}
+function exit() {}
