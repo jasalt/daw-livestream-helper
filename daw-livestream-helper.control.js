@@ -52,7 +52,7 @@ function init() {
          switchedProjectName = projectName;
       });
 
-   tempo.addValueObserver(	
+   tempo.value().addValueObserver(	
       function(newTempo) {
          println("newTempo" + newTempo);
       });
