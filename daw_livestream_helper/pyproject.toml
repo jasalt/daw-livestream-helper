@@ -21,6 +21,7 @@ requires = [
 
 [tool.briefcase.app.daw_livestream_helper.macOS]
 requires = [
+    'toga==0.3.0.dev24',
     'toga-cocoa==0.3.0.dev24',
 ]
 
