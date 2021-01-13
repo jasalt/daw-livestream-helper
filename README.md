@@ -46,13 +46,13 @@ Should be quite straightforward to make this work with some other DAW software b
 - [X] Toggle sending on/off
 - [X] Mockup Icon
 - [!] Windows support
-- [ ] Read project BPM
-- [ ] Read project genre
+- [ ] BWS: Read project BPM
+- [ ] BWS: Read project genre
 - [ ] Build executable (tested working on Windows)
 
 ## Windows support status
 
-There is a known Windows issue with Toga version `0.3.0.dev25` which breaks async functionality https://github.com/beeware/toga/issues/1166. Using `0.3.0.dev24` for now which functions but **has memory leak while waiting for a proper fix from Toga**.
+There is a known Windows issue with Toga version `0.3.0.dev25` which breaks async functionality https://github.com/beeware/toga/issues/1166. Using `0.3.0.dev24` for now which functions but **has memory leak while waiting for a proper fix from Toga**. As a workaround I'm running this on Mac and connecting via LAN from Windows DAW machine (requires changing server address in `daw-livestream-helper.control.js`)
 
 ![Winforms](https://github.com/jasalt/daw-livestream-helper/blob/master/docs/210113-winforms.jpg)
 
@@ -68,6 +68,7 @@ There is a known Windows issue with Toga version `0.3.0.dev25` which breaks asyn
 - [ ] Set project name changes to livestream video title
 - [ ] Help setting chapter marks for Youtube video description
 - [ ] Proper Icon
+- [ ] BWS: add host configuration to controller script settings page
 
 # Motivation 
 
