@@ -47,7 +47,8 @@ Should be quite straightforward to make this work with some other DAW software b
 - [X] Mockup Icon
 - [X] Package to executable
 - [!] Windows support
-- [ ] Save Twitch login data for next run (for packaged MacOS version)
+- [ ] Save Twitch login data for next run (MacOS package does not read env vars)
+- [ ] Auto start Twitch connection if credentials exist (running as module broke this)
 - [ ] BWS: Read project BPM
 - [ ] BWS: Read project genre
 
