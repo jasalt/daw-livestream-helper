@@ -8,15 +8,30 @@ host.defineController("com.saltiolabs", "daw-livestream-helper", "0.1", "5a8ba85
 
 var connection = null;
 
+
 function init() {
+   // Setup host server settings accessible from Preferences
    var preferences = host.getPreferences();
    var ipAddressSetting = preferences.getStringSetting("IP Address", "Host", 15, "127.0.0.1");
    var portSetting = preferences.getStringSetting("Port", "Host", 6, "9000");
-   
+
    var oscModule = host.getOscModule ();
    var ipAddress = ipAddressSetting.get();
    var port = parseInt(portSetting.get());
 
+   ipAddressSetting.addValueObserver(function(value){
+      if (value != ipAddress){  // Gets triggered on document change and after restart
+         println("Host IP changed to " + value);
+         host.restart();
+      }});
+
+   portSetting.addValueObserver(function(value){
+      if (value != port){  // Gets triggered on document change and after restart
+         println("Host port changed to " + value);
+         host.restart();
+      }});
+
+      
    println("Connecting OSC server " + ipAddress + ":" + port);
    connection = oscModule.connectToUdpServer (ipAddress, port, oscModule.createAddressSpace ());
 
@@ -30,7 +45,6 @@ function init() {
    var transport = host.createTransport();
    var tempo = transport.tempo();
    
-
    // Triggers on project tab switch and sets variable for switched project name
    projectName.addValueObserver(	
       function(projectName) {
