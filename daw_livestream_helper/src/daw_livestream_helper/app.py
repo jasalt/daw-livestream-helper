@@ -11,8 +11,11 @@ from os import environ
 
 import socket
 
+app = None
+
 class OscServer(aiosc.OSCProtocol):
     def __init__(self):
+        print("Initializing OSC connection on port 9000")
         super().__init__(handlers={
             # '/sys/exit': lambda addr, path, *args: sys.exit(0),
             '//*': self.handle_message,
@@ -21,6 +24,7 @@ class OscServer(aiosc.OSCProtocol):
     def handle_message(self, addr, path, *args):
         print("incoming message from {}: {} {}".format(addr, path, args))
         project_name = args[0]
+        global app
         app.daw_project_name.text = project_name
         if app.on_switch.is_on:
             app.bot.send_message(f"[{project_name}]")
@@ -28,6 +32,7 @@ class OscServer(aiosc.OSCProtocol):
 
 class Bot(commands.Bot):
     def __init__(self):
+        global app
         super().__init__(irc_token=app.twitch_key_input.value, nick=app.twitch_user_input.value, prefix='!', #client_id='...'
                          initial_channels=[app.twitch_channel_input.value])
 
@@ -67,7 +72,8 @@ class Bot(commands.Bot):
         await ctx.send(f'Hello {ctx.author.name}!')
 
     def send_message(self, message):
-        chan = app.bot.get_channel(app.twitch_channel_input.value)
+        global app
+        chan = app.bot.get_channel(app.twitch_channel_input.value)  # should be self.bot?
         loop = app._impl.loop  # equals asyncio.get_event_loop()
         loop.create_task(chan.send(message))
         print("Sending to Twitch chat")
@@ -160,16 +166,17 @@ class DAWLivestreamHelper(toga.App):
         osc_task = loop.create_task(osc_coro, name="osc_coro")
 
         # Connect Twitch automatically if credentials are set 
-        if environ.get('TWITCH_USER', None) and environ.get('TWITCH_CHAN', None) and environ.get('TWITCH_OAUTH', None):
-            self.twitch_connect(self.twitch_connect_button)
+        # if environ.get('TWITCH_USER', None) and environ.get('TWITCH_CHAN', None) and environ.get('TWITCH_OAUTH', None):
+            # self.twitch_connect(self.twitch_connect_button)
 
-        
         ### Startup GUI
         self.main_window.show()
         
 
 def main():
-    return DAWLivestreamHelper()
+    global app
+    app = DAWLivestreamHelper()
+    return app
 
 if __name__ == '__main__':
     app = DAWLivestreamHelper('DAW Livestream Helper', 'com.saltiolabs')
