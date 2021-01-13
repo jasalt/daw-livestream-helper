@@ -45,10 +45,11 @@ Should be quite straightforward to make this work with some other DAW software b
 - [X] Input for Twitch API key, username and channel
 - [X] Toggle sending on/off
 - [X] Mockup Icon
+- [X] Package to executable
 - [!] Windows support
+- [ ] Save Twitch login data for next run (for packaged MacOS version)
 - [ ] BWS: Read project BPM
 - [ ] BWS: Read project genre
-- [ ] Build executable (tested working on Windows)
 
 ## Windows support status
 
