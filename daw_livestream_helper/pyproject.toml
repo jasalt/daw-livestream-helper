@@ -4,28 +4,31 @@ bundle = "com.saltiolabs"
 version = "0.0.1"
 url = "https://github.com/jasalt/daw-livestream-helper"
 license = "GNU General Public License v3 (GPLv3)"
-author = 'Listen and broadcast DAW project file changes for livestream chat and Youtube chapter infoJarkko Saltiola'
+author = 'Jarkko Saltiola'
 author_email = "jarkko@saltiolacode.fi"
 
 [tool.briefcase.app.daw_livestream_helper]
 formal_name = "DAW Livestream Helper"
-description = "About"
+description = 'Listen and broadcast DAW project file changes to livestream chat'
 icon = "src/daw_livestream_helper/resources/daw_livestream_helper"
 sources = ['src/daw_livestream_helper']
-requires = []
+requires = [    
+    'aiosc==0.1.4',
+    'twitchio==1.2.0',
+    'idna==2.10'  # force older version cause of requests version dependency conflict
+    ]
 
 
 [tool.briefcase.app.daw_livestream_helper.macOS]
 requires = [
-    'toga-cocoa==0.3.0.dev25',
-    'aiosc==0.1.4',
-    'twitchio==1.2.0'
+    'toga-cocoa==0.3.0.dev24',
 ]
 
 [tool.briefcase.app.daw_livestream_helper.linux]
 requires = [
-    'toga-gtk>=0.3.0.dev20',
+    'toga-gtk>=0.3.0.dev24',
 ]
+
 system_requires = [
     'libgirepository1.0-dev',
     'libcairo2-dev',
@@ -36,16 +39,16 @@ system_requires = [
 
 [tool.briefcase.app.daw_livestream_helper.windows]
 requires = [
-    'toga-winforms>=0.3.0.dev20',
+    'toga-winforms==0.3.0.dev24',
 ]
 
 # Mobile deployments
 [tool.briefcase.app.daw_livestream_helper.iOS]
 requires = [
-    'toga-iOS>=0.3.0.dev20',
+    'toga-iOS>=0.3.0.dev24',
 ]
 
 [tool.briefcase.app.daw_livestream_helper.android]
 requires = [
-    'toga-android>=0.3.0.dev20',
+    'toga-android>=0.3.0.dev24',
 ]
