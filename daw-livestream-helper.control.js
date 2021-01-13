@@ -9,9 +9,16 @@ host.defineController("com.saltiolabs", "daw-livestream-helper", "0.1", "5a8ba85
 var connection = null;
 
 function init() {
+   var preferences = host.getPreferences();
+   var ipAddressSetting = preferences.getStringSetting("IP Address", "Host", 15, "127.0.0.1");
+   var portSetting = preferences.getStringSetting("Port", "Host", 6, "9000");
+   
    var oscModule = host.getOscModule ();
+   var ipAddress = ipAddressSetting.get();
+   var port = parseInt(portSetting.get());
 
-   connection = oscModule.connectToUdpServer ("127.0.0.1", 9000, oscModule.createAddressSpace ());
+   println("Connecting OSC server " + ipAddress + ":" + port);
+   connection = oscModule.connectToUdpServer (ipAddress, port, oscModule.createAddressSpace ());
 
    var application = host.createApplication();
    var projectName = application.projectName();
@@ -22,6 +29,7 @@ function init() {
 
    var transport = host.createTransport();
    var tempo = transport.tempo();
+   
 
    // Triggers on project tab switch and sets variable for switched project name
    projectName.addValueObserver(	
