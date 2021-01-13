@@ -23,9 +23,8 @@ class OscServer(aiosc.OSCProtocol):
 
     def handle_message(self, addr, path, *args):
         print("incoming message from {}: {} {}".format(addr, path, args))
-        project_name = args[0]
-        global app
-        app.daw_project_name.text = project_name
+        project_name = args[0].replace('|','@')
+        app.daw_project_name.text = project_name  # BUG gets cut off, some problem with encoding?
         if app.on_switch.is_on:
             app.bot.send_message(f"[{project_name}]")
 
@@ -166,8 +165,8 @@ class DAWLivestreamHelper(toga.App):
         osc_task = loop.create_task(osc_coro, name="osc_coro")
 
         # Connect Twitch automatically if credentials are set 
-        # if environ.get('TWITCH_USER', None) and environ.get('TWITCH_CHAN', None) and environ.get('TWITCH_OAUTH', None):
-            # self.twitch_connect(self.twitch_connect_button)
+        if environ.get('TWITCH_USER', None) and environ.get('TWITCH_CHAN', None) and environ.get('TWITCH_OAUTH', None):
+            self.twitch_connect(self.twitch_connect_button)
 
         ### Startup GUI
         self.main_window.show()
