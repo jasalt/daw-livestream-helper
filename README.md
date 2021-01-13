@@ -46,11 +46,11 @@ Should be quite straightforward to make this work with some other DAW software b
 - [X] Toggle sending on/off
 - [X] Mockup Icon
 - [X] Package to executable
+- [X] BWS: add host configuration to controller script settings page
+- [X] BWS: Read project BPM
 - [!] Windows support
 - [ ] Save Twitch login data for next run (MacOS package does not read env vars)
 - [ ] Auto start Twitch connection if credentials exist (running as module broke this)
-- [ ] BWS: Read project BPM
-- [ ] BWS: Read project genre
 
 ## Windows support status
 
@@ -67,10 +67,10 @@ There is a known Windows issue with Toga version `0.3.0.dev25` which breaks asyn
 
 ## Later
 
+- [ ] BWS: Read project genre (not accessible via Controller API?)
 - [ ] Set project name changes to livestream video title
 - [ ] Help setting chapter marks for Youtube video description
 - [ ] Proper Icon
-- [ ] BWS: add host configuration to controller script settings page
 
 # Motivation 
 
