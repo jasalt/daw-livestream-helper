@@ -4,6 +4,7 @@ import toga
 from toga.style.pack import CENTER, COLUMN, ROW, Pack
 import asyncio
 
+# FIXED, was related to https://github.com/beeware/toga/issues/1166
 
 # Both are failing on Windows 10, Python 3.9.7, 3.8.6, 
 # Toga not installing on 3.9.1 cause pythonnet not supported yet.

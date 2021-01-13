@@ -17,7 +17,9 @@ requires = []
 
 [tool.briefcase.app.daw_livestream_helper.macOS]
 requires = [
-    'toga-cocoa>=0.3.0.dev20',
+    'toga-cocoa==0.3.0.dev25',
+    'aiosc==0.1.4',
+    'twitchio==1.2.0'
 ]
 
 [tool.briefcase.app.daw_livestream_helper.linux]
