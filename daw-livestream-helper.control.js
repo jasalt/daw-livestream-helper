@@ -44,11 +44,12 @@ function init() {
 
    var transport = host.createTransport();
    var tempo = transport.tempo();
+   var BPM;
    
    // Triggers on project tab switch and sets variable for switched project name
    projectName.addValueObserver(	
       function(projectName) {
-         println("switchedProjectName:" + projectName);
+         // println("switchedProjectName:" + projectName);
          switchedProjectName = projectName;
       });
 
@@ -57,21 +58,22 @@ function init() {
       function(newTempo) {
          var bpm_mapped = map(newTempo, 0, 1, 20, 666);  // Convert decimal value between 0 - 1
          var bpm = bpm_mapped.toFixed(2);  // Two decimal precision
-         println(`New BPM ${bpm} (${newTempo})` );
+         // println(`New BPM ${bpm} (${newTempo})` );
+         BPM = bpm;
       });
 
    // Triggers on project tab switch
    activeEngine.addValueObserver(	
       function(activeEngine) {
-         println('activeEngine: ' + activeEngine);
-         println("activeProjectName:" + activeProjectName);
+         // println('activeEngine: ' + activeEngine);
+         // println("activeProjectName:" + activeProjectName);
 
          // if switched project tab has active engine
          if (activeEngine){
             if (switchedProjectName != activeProjectName){  // and it's not the current active project
                activeProjectName = switchedProjectName; 
-               println(`Engine On, sending project name ${switchedProjectName} via OSC`);
-               connection.sendMessage("/project/name", switchedProjectName);  // send the updated active project name
+               println(`Engine On, sending project name ${switchedProjectName}, ${BPM} BPM via OSC`);
+               connection.sendMessage("/project/info", `${switchedProjectName} | ${BPM} BPM`);  // send the updated active project name
             }
             // println('Switched to previously active project tab, skip sending message.');
          }
