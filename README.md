@@ -26,8 +26,8 @@ No errors are given for failed login for other than error console. Restart and t
 
 Based on Python 3.8.6 and Beeware [Toga](https://toga.readthedocs.io/en/latest/) native GUI application framework (0.3.0.dev24). 
 
-Written and tested on MacOS 11.1 (Intel) and should run on Linux. Aiming to support Windows 10 (and 7) shortly as it's my main DAW system (see later section).
-
+Written and tested on MacOS 11.1 (Intel) where it's working 100%. Windows has a memory leak problem waiting for fix from Toga side (see later section). Should run on Linux but haven't tested.
+ 
 # Development
 
 ![Concept Image](https://github.com/jasalt/daw-livestream-helper/blob/master/docs/210107-daw-livestream-helper.png)
@@ -45,20 +45,23 @@ Should be quite straightforward to make this work with some other DAW software b
 - [X] Input for Twitch API key, username and channel
 - [X] Toggle sending on/off
 - [X] Mockup Icon
-- [ ] Windows support
+- [!] Windows support
 - [ ] Read project BPM
 - [ ] Read project genre
-- [ ] Build executable
+- [ ] Build executable (tested working on Windows)
 
 ## Windows support status
 
-There is a known Windows issue with Toga version 0.3.0.dev25 which breaks async functionality https://github.com/beeware/toga/issues/1166. Using 0.3.0.dev24 for now.
+There is a known Windows issue with Toga version `0.3.0.dev25` which breaks async functionality https://github.com/beeware/toga/issues/1166. Using `0.3.0.dev24` for now which functions but **has memory leak while waiting for a proper fix from Toga**.
+
+![Winforms](https://github.com/jasalt/daw-livestream-helper/blob/master/docs/210113-winforms.jpg)
 
 - [X] Toga GUI works
 - [X] Bitwig controller script works and connects aiosc_test.py
 - [X] twitchio_test.py hellobot connects and sends echo back (bit slow?)
 - [X] Problems running aiosc with Toga event loop ([Toga issue 1166](https://github.com/beeware/toga/issues/1166))
-- [ ] Problems running TwitchIO with Toga event loop *(RuntimeError: There is no current event loop in thread 'Dummy-1'.)*
+- [X] Problems running TwitchIO with Toga event loop *(RuntimeError: There is no current event loop in thread 'Dummy-1'.)* ([Toga issue 1166](https://github.com/beeware/toga/issues/1166))
+- [ ] Memory leak ([Toga issue 1166](https://github.com/beeware/toga/issues/1166))
 
 ## Later
 
