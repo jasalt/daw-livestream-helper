@@ -177,6 +177,40 @@ def main():
     app = DAWLivestreamHelper()
     return app
 
+
+def main_cli():
+    '''Hacky way to run it via command line (for temporary Windows support). 
+       Uses mock object to mimick Toga app object. 
+       Restructuring of this whole file recommended. '''
+    import asyncio
+    from unittest.mock import MagicMock
+    global app
+    app = MagicMock()
+    app.on_switch.is_on = True
+
+    hostname = socket.gethostname()
+    local_ip = socket.gethostbyname(hostname)
+    print("Listening on " + local_ip + ":9000")
+
+    loop = asyncio.get_event_loop()
+    app._impl.loop = loop
+
+    osc_coro = loop.create_datagram_endpoint(OscServer, local_addr=('0.0.0.0', 9000))
+    osc_task = loop.create_task(osc_coro, name="osc_coro")
+
+    app.twitch_user_input.value = environ.get('TWITCH_USER', None)
+    app.twitch_channel_input.value = environ.get('TWITCH_CHAN', None)
+    app.twitch_key_input.value = environ.get('TWITCH_OAUTH', None)
+
+    app.bot = Bot()
+    app.bot.run()    
+
+
 if __name__ == '__main__':
+    import sys
+    if len(sys.argv) > 1:  # Run via command line by passing any argument
+        main_cli()
+        exit(1)
+
     app = DAWLivestreamHelper('DAW Livestream Helper', 'com.saltiolabs')
     app.main_loop()
