@@ -95,4 +95,4 @@ Written on Python 3.8 which is last one that supports Windows 7. Python 3.9 does
 # Copyright Notice
 The draft app icons are strictly for personal use as they might contain design elements that could be considered as intellectual property of some 3rd parties. 
 
-Code Licensed under GPLv3.
+Code licensed under MIT
