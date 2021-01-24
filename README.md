@@ -54,7 +54,10 @@ Should be quite straightforward to make this work with some other DAW software b
 
 ## Windows support status
 
-There is a known Windows issue with Toga version `0.3.0.dev25` which breaks async functionality https://github.com/beeware/toga/issues/1166. Using `0.3.0.dev24` for now which functions but **has memory leak while waiting for a proper fix from Toga**. As a workaround I'm running this on Mac and connecting via LAN from Windows DAW machine (requires changing server address in `daw-livestream-helper.control.js`)
+There is a known Windows issue with Toga version `0.3.0.dev25` which breaks async functionality https://github.com/beeware/toga/issues/1166. Using `0.3.0.dev24` for now which functions but **has memory leak while waiting for a proper fix from Toga**. As a possible workarounds:
+
+- Start app.py from command line by calling it with any argument such as `python app.py headless`. Requires setting environment variables for now.
+- Run this on Mac/Linux and connect via LAN from Windows DAW machine. Requires changing server address in BWS control surface settings page.
 
 ![Winforms](https://github.com/jasalt/daw-livestream-helper/blob/master/docs/210113-winforms.jpg)
 
