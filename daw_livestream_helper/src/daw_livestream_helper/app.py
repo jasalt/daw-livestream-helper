@@ -25,7 +25,7 @@ class OscServer(aiosc.OSCProtocol):
         print("incoming message from {}: {} {}".format(addr, path, args))
         project_name = args[0].replace('|','@')
         app.daw_project_name.text = project_name  # BUG gets cut off, some problem with encoding?
-        if app.on_switch.is_on:
+        if app.switch.value:
             app.bot.send_message(project_name)
 
 
@@ -82,8 +82,8 @@ class DAWLivestreamHelper(toga.App):
     def send_button_fuction(self, widget, **kwargs):
         self.bot.send_message(self.daw_project_name.text)
 
-    def on_switch_handler(self, widget, **kwargs):
-        message = f"on_switch is_on = {self.on_switch.is_on}"
+    def switch_toggle_handler(self, widget, **kwargs):
+        message = f"switch.value = {self.switch.value}"
         print(message)
         # self.daw_project_name.text = message
 
@@ -108,8 +108,8 @@ class DAWLivestreamHelper(toga.App):
                                                              self.daw_project_name],
                                                              style=Pack(direction=ROW, padding=10))
 
-        hostname = socket.gethostname()
-        local_ip = socket.gethostbyname(hostname)
+        local_ip = '127.0.0.1'
+
         self.hostname_title = toga.Label(text="Listening on:", style=Pack(color="#808080"))
         self.hostname = toga.Label(local_ip + ":9000")
 
@@ -140,10 +140,10 @@ class DAWLivestreamHelper(toga.App):
 
         self.twitch_connect_button = toga.Button('Connect', on_press=self.twitch_connect, style=Pack(flex=0.5, padding_right=5))
         self.send_button = toga.Button('Send current project name', on_press=self.send_button_fuction, style=Pack(flex=1))
-        self.on_switch = toga.Switch('Enable automatic sending', on_toggle=self.on_switch_handler, style=Pack(flex=1, padding_left=10, padding_top=3))
+        self.switch = toga.Switch('Enable automatic sending', on_change=self.switch_toggle_handler, style=Pack(flex=1, padding_left=10, padding_top=3))
 
         self.twitch_controls_container = toga.Box(style=Pack(direction=ROW, padding=10),
-                                                  children=[self.twitch_connect_button, self.send_button, self.on_switch])
+                                                  children=[self.twitch_connect_button, self.send_button, self.switch])
 
         main_box = toga.Box(style=Pack(direction=COLUMN,padding=10,flex=1),
                             children=[self.hostname_container, self.daw_project_name_container,
@@ -186,7 +186,7 @@ def main_cli():
     from unittest.mock import MagicMock
     global app
     app = MagicMock()
-    app.on_switch.is_on = True
+    app.switch.value = True
 
     hostname = socket.gethostname()
     local_ip = socket.gethostbyname(hostname)
